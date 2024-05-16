@@ -40,9 +40,9 @@ void start_simulation(struct simulator *s){
     int miss = 0, total = 0;
     while (fgets(line, sizeof(line), fptr) != NULL){
         sscanf(line, "%x", &decimal);
-        if(!read_or_write_cache((s->c), decimal, total)){
+        if(!read_or_write_cache((s->c), decimal, total+1)){
             miss++;
-            get_block_from_memory((s->c), decimal, total);
+            get_block_from_memory((s->c), decimal, total+1);
         }
         total++;
     }
