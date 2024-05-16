@@ -85,7 +85,7 @@ void get_block_from_memory(struct set_associative_cache* c, uint32_t mem_addr, u
     uint32_t block_idx = mem_addr / 4 / c->word_block_size;
     uint32_t entries_idx = block_idx % c->entries, t = block_idx / c->entries;
 
-    uint16_t min_last_used  = 1e4;
+    uint16_t min_last_used  = 1e5;
     uint32_t target_set = 0;
 
     for(uint32_t i=0; i<c->set_degree; i++){
@@ -94,7 +94,7 @@ void get_block_from_memory(struct set_associative_cache* c, uint32_t mem_addr, u
             break;
         }
         else if(c->cache[entries_idx][i].last_used < min_last_used)
-            min_last_used = i, min_last_used = c->cache[entries_idx][i].last_used;
+            target_set = i, min_last_used = c->cache[entries_idx][i].last_used;
     }
 
     c->cache[entries_idx][target_set] = (struct cache_block) {.tag = t, .last_used = cycle, .valid_bit = 1};
